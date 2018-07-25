@@ -1,0 +1,109 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a class="link back">
+            <i class="far fa-arrow-alt-circle-left"></i>
+            <span class="ios-only">Back</span>
+          </a>
+        </div>
+        <div class="title" style="left: 0px; width: 100%; text-align: center !important;">
+        	<img src="img/jointable.png">
+        </div>
+        <div class="right" style="cursor: pointer;">
+        	<a data-popover=".popover-links-user" class="link popover-open my-menu">
+	        	<i class="fas fa-user-circle"></i>
+	        </a>
+        </div>
+      </div>
+    </div>
+    <div class="toolbar">
+	    <div class="toolbar-inner">
+	      <a class="link">TableNo</a>
+	      <a class="link">Current Order</a>
+	      <a class="link">Order Summary</a>
+	      <a class="link">OrderNo</a>
+	    </div>
+	</div>
+	<div class="popover popover-links-user">
+	    <div class="popover-angle"></div>
+	    <div class="popover-inner">
+	      <div class="list" style="">
+	        <ul>
+	        	<li>
+	          		<a class="list-button item-link clickopen popover-close">
+		          		<div class="item-content my-item-content">
+							<div class="item-media"><i class="fas fa-user-circle"></i></div>
+							<div class="item-inner">
+								<div class="item-title my-display-user"></div>
+							</div>
+						</div>
+					</a>
+	            </li>
+	          	<li>
+	          		<a class="list-button item-link clickopen popover-close changepassword">
+	          			<div class="item-content my-item-content">
+							<div class="item-media"><i class="fas fa-exchange-alt"></i></div>
+							<div class="item-inner">
+								<div class="item-title">Change Password</div>
+							</div>
+						</div>
+	          		</a>
+	          	</li>
+	          	<li>
+	          		<a class="list-button item-link popover-close logout-user">
+	          			<div class="item-content my-item-content"> 
+							<div class="item-media"><i class="fas fa-sign-out-alt"></i></div>
+							<div class="item-inner">
+								<div class="item-title">Logout</div>
+							</div>
+						</div>
+	          		</a>
+	          	</li>
+	          
+	        </ul>
+	      </div>
+	    </div>
+	</div>
+
+    <div class="page-content">
+		<div class="block" style="margin: 15px 0px;">
+		  	<div class="row">
+			    <div class="col-50">
+			    	<div class="blocks">
+				    	<a>
+							<h5>Food Name</h5>
+	                        <a class="link ribbon ribbon-top-right" >
+	                            <div class="off"><i class="lnr lnr lnr-plus-circle"></i></div>
+	                        </a>
+	                        <a href="/detail/">
+		                        <div class="control">
+		                            <img src="img/Noodles.jpg">
+		                        </div>
+		                    </a>
+	                        <p class="pricefood">$5.00</p>
+						</a>
+					</div>
+			    </div>
+			    <div class="col-50">
+			    	<div class="blocks">
+				    	<a>
+							<h5>Food Name</h5>
+	                        <a class="link ribbon ribbon-top-right" >
+	                            <div class="off"><i class="lnr lnr lnr-plus-circle"></i></div>
+	                        </a>
+	                        <a href="/detail/">
+		                        <div class="control">
+		                            <img src="img/Noodles.jpg">
+		                        </div>
+		                    </a>
+	                        <p class="pricefood">$5.00</p>
+						</a>
+					</div>
+			    </div>
+			</div>
+    	</div>
+  </div>
+</template>
+

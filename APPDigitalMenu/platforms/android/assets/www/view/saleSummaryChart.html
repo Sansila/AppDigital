@@ -1,0 +1,343 @@
+<template>
+	<div class="page">
+	  <div class="navbar">
+	    <div class="navbar-inner sliding">
+	      	<div class="left">
+	        	<a class=" back">
+	          		<i class="far fa-arrow-alt-circle-left"></i>
+	          		<span class="ios-only">Back</span>
+	        	</a>
+	      	</div>
+	      	<div class="title" style="left: 0px; width: 100%; text-align: center !important;">
+        		<img src="img/summary.png">
+        	</div>
+        	<div class="right">
+
+    			<a class="link popup-open" href="#" data-popup=".popup-about">
+    				<img src="img/icon/calendar.png" style="height: 25px;">
+    			</a>
+
+        	</div>
+	    </div>
+	  </div>
+	  <div class="toolbar tabbar">
+	    <div class="toolbar-inner">
+	      <a href="#tab-1" class="tab-link tab-link-active">Sale Summary</a>
+	      <a href="#tab-2" class="tab-link">Sale Summary Chart</a>
+	      <a href="#tab-3" class="tab-link">Payment Summary</a>
+	    </div>
+	  </div>
+
+	  <div class="tabs-animated-wrap">
+	    <div class="tabs">
+	      <div id="tab-1" class="page-content tab tab-active">
+	        <div class="block" style="margin-top: 10px;">	
+			    <div class="summarydata" style="margin-top: 5px;">
+					<ul>
+						<li style="text-align: center; padding: 10px;">Lists Sale Summary</li>
+					</ul>
+				</div>
+	        </div>
+	      </div>
+	      <div id="tab-2" class="page-content tab">
+	        <div class="block" style="margin-top: 10px;">
+	        	<div style="padding: 5px 30px; text-align: center;"> 
+		        	<div class="timeline-item-text">Chart Sale Summary</div>
+	        	</div>
+			    <div class="chartwrapper" style="height: 1200px; ">
+				  <div id="chartdiv" class="chartdiv"></div>
+				</div>
+	        </div>
+	      </div>
+	      <div id="tab-3" class="page-content tab">
+	        <div class="block" style="margin-top: 10px;">
+	        	<div style="padding: 5px 30px; text-align: center;"> 
+		        	<div class="timeline-item-text">Chart Sale Summary</div>
+	        	</div>
+			    <div class="chartwrapper" style="height: auto; ">
+				  <div id="chartpayment" class="chartpayment"></div>
+				</div>
+	        </div>
+	      </div>
+	    </div>
+	   
+
+	    <div class="popup popup-about">
+		    <div class="page">
+		      <div class="navbar">
+		          <div class="navbar-inner">
+		            <div class="title">Search patient history</div>
+		            <div class="right">
+		            	<a href="#" class="link popup-close-filter">
+		            		<img src="img/icon/close.png">
+		            	</a>
+		            </div>
+		          </div>
+		        </div>
+
+		        <div class="page-content">
+		        	<div class="block-title">Filter Patient</div>
+		        	<div class="block">
+		        		<p class="segmented segmented-raised segmented-round">
+							<button id="calendarfrom" class="button button-round button-active">From Date</button>
+							<button id="calendarto" class="button button-round button-active" style="
+							border-radius: 0 36px 36px 0;">To Date</button>		
+						</p>
+						<p class="segmented segmented-raised segmented-round">
+							<input type="text" name="summarydatefrom" class="summarydatefrom" readonly="readonly" disabled="disabled" style="width: 100%;text-align: center; padding: 10px" />
+							<input type="text" name="summarydateto" class="summarydateto" readonly="readonly" disabled="disabled" style="width: 100%;text-align: center; padding: 10px"/>
+						</p>
+					</div>
+					<div class="block">
+						<p class="segmented segmented-round">
+							<button class="button button-round button-outline button-active btn-summary-filter" style="border-radius: 36px;">
+								Filter
+							</button>
+						</p>
+					</div>
+
+		        </div>
+		    </div>
+
+		</div>
+
+	    
+
+    </div>
+
+
+
+	  </div>
+	</div>
+
+</template>
+
+<script>
+	
+
+  return {
+
+
+    on: {
+      pageInit: function (e, page) {
+        var self = this;
+        var now = new Date();
+        var app = self.$app;
+        var $ = self.$;
+        var link = this.$route.params.link;
+        var day = ("0" + now.getDate()).slice(-2);
+    	var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    	var today = now.getFullYear()+"/"+(month)+"/"+(day) ;
+
+        // ============= defaul date ===============//
+
+
+        self.getSummaryToday(today,link);
+        self.getPaymentSummaryToday(today,link);
+
+
+        $( ".summarydatefrom" ).val(today);
+        $( ".summarydateto" ).val(today);
+       
+        // ============== calenda from ==============//
+
+        var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'];
+        self.calendardatefrom = app.calendar.create({
+          	inputEl: '#calendarfrom',
+          	on: {
+			  	init: function(calendar) {
+			    	$('.calendar-month-name').text(monthNames[calendar.currentMonth] +' ' + calendar.currentYear);
+			  	},
+			  	monthYearChangeStart: function (calendar) {
+			    	$('.calendar-month-name').text(monthNames[calendar.currentMonth] +' ' + calendar.currentYear);
+			  	},
+			  	dayClick: function(calendar, dayEl, year, month, day) {
+			  		var months = parseInt(month) + 1;
+			    	var selectedDay = year+'/'+(months)+'/'+day; // selected day
+			    	var currentDay = $('.calendar-day-today span').text(); //current day
+			    	//console.log(selectedDay);
+			    	$('.summarydatefrom').val(selectedDay);
+
+			    	app.calendar.close();
+			  	}
+			},
+
+        });
+
+		//=============== calendar to =================//
+
+		var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'];
+        self.calendardateto = app.calendar.create({
+          	inputEl: '#calendarto',
+          	on: {
+			  	init: function(calendar) {
+			    	$('.calendar-month-name').text(monthNames[calendar.currentMonth] +' ' + calendar.currentYear);
+			  	},
+			  	monthYearChangeStart: function (calendar) {
+			    	$('.calendar-month-name').text(monthNames[calendar.currentMonth] +' ' + calendar.currentYear);
+			  	},
+			  	dayClick: function(calendar, dayEl, year, month, day) {
+			  		var months = parseInt(month) + 1;
+			    	var selectedDay = year+'/'+(months)+'/'+day; // selected day
+			    	var currentDay = $('.calendar-day-today span').text(); //current day
+			    	//console.log(selectedDay);
+			    	$('.summarydateto').val(selectedDay);
+
+			    	app.calendar.close();
+			  	}
+			},
+
+        });
+
+        // ================= close popup =================//
+
+        $('.popup-close-filter').click(function(){
+        	app.popup.close('.popup-about',true);
+        });
+
+        //==================== filter ===================//
+
+        $('.btn-summary-filter').click(function(){
+        	var datefrom = $('.summarydatefrom').val();
+        	var dateto   = $('.summarydateto').val();
+        	var html = '';
+        	$('summarydata ul').html('');
+        	app.popup.close('.popup-about',true);
+        	app.preloader.show();
+
+        	app.request.post('http://'+link+'/Hospital/dynamicController/getSalesummery', 
+		    { 	
+		    	datefrom: datefrom, dateto: dateto
+		    },
+		    function(data)
+		    {
+		    	data = JSON.parse(data);
+		    	for (var i = 0; i < data.length; i++) {
+					html+='<li class="item-content" style="padding-left: 0px;">'+
+					    '<div class="timeline-item-content" style="width: 100%;">'+
+					        '<div class="timeline-item-inner">'+
+								'<div class="timeline-item-text item-title">CategoryName: '+data[i].CategoryName+'</div>'+
+								'<div class="timeline-item-text">MainCategory: '+data[i].MainCategory+'</div>'+
+								'<div class="timeline-item-text">Sale Amount: '+data[i].SaleAmount+'</div>'+
+							'</div>'+
+					    '</div>'+
+					'</li>';
+		    	}
+		    	$('.summarydata ul').append(html);
+		    	app.preloader.hide();
+
+		    	AmCharts.makeChart("chartdiv", {
+			      "type": "pie",
+			      "radius": 100,
+			      "dataProvider": data,
+			      "titleField": "CategoryName",
+			      "valueField": "SaleAmount",
+			      "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+			      "innerRadius": "30%",
+			      "legend": {
+			        "align": "center",
+			        "markerType": "circle"
+			      },
+			    });
+		    });
+
+        	// ====================== show chart payment ===================//
+
+        	app.request.post('http://'+link+'/Hospital/dynamicController/getPaymentsummery', 
+		    { 	
+		    	datefrom: datefrom, dateto: dateto
+		    }, 
+		    function (data) {
+		    	data = JSON.parse(data);
+		    	AmCharts.makeChart("chartpayment", {
+			      "type": "pie",
+			      "radius": 100,
+			      "dataProvider": data,
+			      "titleField": "PaymentMethod",
+			      "valueField": "Amount",
+			      "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+			      "innerRadius": "30%",
+			      "legend": {
+			        "align": "center",
+			        "markerType": "circle"
+			      },
+			    });
+		    });
+
+        });
+
+      },
+      pageBeforeRemove() {
+        var self = this;
+        self.calendardatefrom.destroy();
+        self.calendardateto.destroy();
+      },
+    },
+    methods: {
+    	getSummaryToday: function(today,link)
+    	{
+    		var html = '';
+    		$('summarydata ul').html('');
+    		app.preloader.show();
+    		app.request.post('http://'+link+'/Hospital/dynamicController/getSummaryToday', 
+		    { 	
+		    	today: today
+		    }, 
+		    function (data) {
+		    	data = JSON.parse(data);
+		    	for (var i = 0; i < data.length; i++) {
+					html+='<li class="item-content" style="padding-left: 0px;">'+
+					    '<div class="timeline-item-content" style="width: 100%;">'+
+					        '<div class="timeline-item-inner">'+
+								'<div class="timeline-item-text item-title">CategoryName: '+data[i].CategoryName+'</div>'+
+								'<div class="timeline-item-text">MainCategory: '+data[i].MainCategory+'</div>'+
+								'<div class="timeline-item-text">Sale Amount: '+data[i].SaleAmount+'</div>'+
+							'</div>'+
+					    '</div>'+
+					'</li>';
+		    	}
+		    	$('.summarydata ul').append(html);
+		    	app.preloader.hide();
+
+		    	AmCharts.makeChart("chartdiv", {
+			      "type": "pie",
+			      "radius": 100,
+			      "dataProvider": data,
+			      "titleField": "CategoryName",
+			      "valueField": "SaleAmount",
+			      "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+			      "innerRadius": "30%",
+			      "legend": {
+			        "align": "center",
+			        "markerType": "circle"
+			      },
+			    });
+		    });
+    	},
+    	getPaymentSummaryToday: function(today,link){
+    		app.request.post('http://'+link+'/Hospital/dynamicController/getPaymentSummeryToday', 
+		    { 	
+		    	today: today
+		    }, 
+		    function (data) {
+		    	data = JSON.parse(data);
+		    	AmCharts.makeChart("chartpayment", {
+			      "type": "pie",
+			      "radius": 100,
+			      "dataProvider": data,
+			      "titleField": "PaymentMethod",
+			      "valueField": "Amount",
+			      "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+			      "innerRadius": "30%",
+			      "legend": {
+			        "align": "center",
+			        "markerType": "circle"
+			      },
+			    });
+		    });
+    	}
+    }
+
+  }
+
+</script>

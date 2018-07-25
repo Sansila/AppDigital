@@ -1,0 +1,664 @@
+<template>
+	<div class="page">
+	  <div class="navbar">
+	    <div class="navbar-inner sliding">
+	      	<div class="left">
+	        	<a class=" back">
+	          		<i class="far fa-arrow-alt-circle-left"></i>
+	          		<span class="ios-only">Back</span>
+	        	</a>
+	      	</div>
+	      	<div class="title" style="left: 0px; width: 100%; text-align: center !important;">
+        		<img src="img/patienthistory.png">
+        	</div>
+        	<div class="right">
+
+    			<a class="popup-open" href="#" data-popup=".popup-about">
+    				<img src="img/icon/calendar.png" style="height: 25px;">
+    			</a>
+
+        	</div>
+	    </div>
+	  </div>
+	  <div class="toolbar tabbar">
+	    <div class="toolbar-inner">
+	      <a href="#tab-1" class="tab-link tab-link-active">Request</a>
+	      <a href="#tab-2" class="tab-link">Prescription</a>
+	      <a href="#tab-3" class="tab-link">Diagnosis</a>
+	      <a href="#tab-4" class="tab-link">VitalSign</a>
+	      <a href="#tab-5" class="tab-link">Allergy</a>
+	    </div>
+	  </div>
+
+	  <div class="tabs-animated-wrap">
+	    <div class="tabs">
+	      <div id="tab-1" class="page-content tab tab-active">
+	        <div class="block" style="margin-top: 10px;">
+	        	<div class="resultfilter hide" style="padding: 0px 30px;">Name: 
+		        	<span class="P-name"></span> 
+		        	<span class="result-date">| Date: <span class="F-date"></span></span>
+		        	<span class="result-date"> - <span class="T-date"></span></span>
+	        	</div>
+	        	
+			    <div class="timeline requestfilter" style="margin-top: 5px;">
+				    <div class="timeline-item">
+					    <div class="timeline-item-divider"></div>
+					    <div class="timeline-item-content" style="width: 100%;">
+					        <div class="timeline-item-inner">
+								<div class="timeline-item-text">Please enter date or patient to filter data.</div>
+							</div>
+					    </div>
+					</div>
+				</div>
+	        </div>
+	      </div>
+	      <div id="tab-2" class="page-content tab">
+	        <div class="block" style="margin-top: 10px;">
+	        	<div class="resultfilter hide" style="padding: 0px 30px;">Name: 
+		        	<span class="P-name"></span> 
+		        	<span class="result-date">| Date: <span class="F-date"></span></span>
+		        	<span class="result-date"> - <span class="T-date"></span></span>
+	        	</div>
+			    <div class="timeline prescriptionfilter" style="margin-top: 5px;">
+				    <div class="timeline-item">
+					    <div class="timeline-item-divider"></div>
+					    <div class="timeline-item-content" style="width: 100%;">
+					        <div class="timeline-item-inner">
+								<div class="timeline-item-text">Please enter date or patient to filter data.</div>
+							</div>
+					    </div>
+					</div>
+				</div>
+	        </div>
+	      </div>
+	      <div id="tab-3" class="page-content tab">
+	        <div class="block" style="margin-top: 10px;">
+	        	<div class="resultfilter hide" style="padding: 0px 30px;">Name: 
+		        	<span class="P-name"></span> 
+		        	<span class="result-date">| Date: <span class="F-date"></span></span>
+		        	<span class="result-date"> - <span class="T-date"></span></span>
+	        	</div>
+			    <div class="timeline diagnosisfilter" style="margin-top: 5px;">
+				    <div class="timeline-item">
+					    <div class="timeline-item-divider"></div>
+					    <div class="timeline-item-content" style="width: 100%;">
+					        <div class="timeline-item-inner">
+								<div class="timeline-item-text">Please enter date or patient to filter data.</div>
+							</div>
+					    </div>
+					</div>
+				</div>
+	        </div>
+	      </div>
+	      <div id="tab-4" class="page-content tab">
+	        <div class="block" style="margin-top: 10px;">
+	        	<div class="resultfilter hide" style="padding: 0px 30px;">Name: 
+		        	<span class="P-name"></span> 
+		        	<span class="result-date">| Date: <span class="F-date"></span></span>
+		        	<span class="result-date"> - <span class="T-date"></span></span>
+	        	</div>
+			    <div class="timeline vitalsignfilter" style="margin-top: 5px;">
+				    <div class="timeline-item">
+					    <div class="timeline-item-divider"></div>
+					    <div class="timeline-item-content" style="width: 100%;">
+					        <div class="timeline-item-inner">
+								<div class="timeline-item-text">Please enter date or patient to filter data.</div>
+							</div>
+					    </div>
+					</div>
+				</div>
+	        </div>
+	      </div>
+	      <div id="tab-5" class="page-content tab">
+	        <div class="block" style="margin-top: 10px;">
+	        	<div class="resultfilter hide" style="padding: 0px 30px;">Name: 
+		        	<span class="P-name"></span>
+	        	</div>
+			    <div class="timeline allergyfilter" style="margin-top: 5px;">
+				    <div class="timeline-item">
+					    <div class="timeline-item-divider"></div>
+					    <div class="timeline-item-content" style="width: 100%;">
+					        <div class="timeline-item-inner">
+								<div class="timeline-item-text">Please enter date or patient to filter data.</div>
+							</div>
+					    </div>
+					</div>
+				</div>
+	        </div>
+	      </div>
+	    </div>
+	   
+	    <div class="popup demo-popup">
+	        <div class="page">
+		        <div class="navbar">
+		          <div class="navbar-inner">
+		            <div class="title">Patient</div>
+		            <div class="right">
+		            	<a class="popup-close-patient">
+		            		<img src="img/icon/close.png">
+		            	</a>
+		            </div>
+		          </div>
+		        </div>
+
+	            <div class="subnavbar" style="margin-top: 10px; height: 40px !important;">
+			      <form data-search-container=".virtual-list" data-search-item="li" data-search-in=".item-title" class="searchbar searchbar-init">
+			        <div class="searchbar-inner">
+			          <div class="searchbar-input-wrap">
+			            <input type="search" placeholder="Search"/>
+			            <i class="searchbar-icon"></i>
+			            <span class="input-clear-button"></span>
+			          </div>
+			          <span class="searchbar-disable-button">Cancel</span>
+			        </div>
+			      </form>
+			    </div>
+			    <div class="searchbar-backdrop"></div>
+
+			    <div class="page-content">
+			      <div class="list simple-list searchbar-not-found">
+			        <ul>
+			          <li>Nothing found</li>
+			        </ul>
+			      </div>
+			      <div class="list virtual-list media-list searchbar-found" style="margin: 0px;"></div>
+			    </div>
+		    </div>
+	    </div>
+
+
+	    <div class="popup popup-about">
+		    <div class="page">
+		      <div class="navbar">
+		          <div class="navbar-inner">
+		            <div class="title">Search patient history</div>
+		            <div class="right">
+		            	<a class="popup-close-filter">
+		            		<img src="img/icon/close.png">
+		            	</a>
+		            </div>
+		          </div>
+		        </div>
+
+		        <div class="page-content">
+		        	<div class="block-title">Filter Patient</div>
+		        	<div class="block">
+		        		<p class="segmented segmented-raised segmented-round">
+							<button id="calendar-from" class="button button-round button-active">From Date</button>
+							<button id="calendar-filter" class="button button-round button-active">To Date</button>
+							<button class="button button-round button-active popup-open" data-popup=".demo-popup" style="
+							border-radius: 0 36px 36px 0;">
+							Patient
+						    </button>
+								
+						</p>
+						<p class="segmented segmented-raised segmented-round">
+							<input type="hidden" name="patient" class="patient add-patient">
+							<input type="text" name="datefrom" class="datefrom" readonly="readonly" disabled="disabled" style="width: 100%;text-align: center; padding: 10px"/>
+							<input type="text" name="datefilter" class="datefilter" readonly="readonly" disabled="disabled" style="width: 100%;text-align: center; padding: 10px"/>
+							<input type="text" name="patient-name" class="patient-name" disabled="disabled" style="width: 100%;text-align: center; padding: 10px">
+						</p>
+					</div>
+					<div class="block">
+						<p class="segmented segmented-round">
+							<button class="button button-round button-outline button-active btn-filter" style="border-radius: 36px;">
+								Filter
+							</button>
+						</p>
+					</div>
+
+		        </div>
+		    </div>
+
+		</div>
+
+	    
+
+    </div>
+
+
+
+	  </div>
+	</div>
+
+</template>
+
+<script>
+	
+
+  return {
+
+	data: function()
+  	{
+   		  var link = this.$route.params.link;
+		  var items = [];
+	      var a = 15;
+	      app.request.json('http://'+link+'/Hospital/dynamicController/loaddetails', 
+	      function (data) {
+	        //console.log(data);
+	          app.preloader.show();
+	          for (var i = 0; i < data.length; i++) {
+	            items.push({
+	              id: data[i].PatientID,
+	              title: data[i].PatientName + data[i].PatientID,
+	              subtitle: data[i].PatientName,
+	              gender: data[i].Gender,
+	            });
+	          }
+	          app.preloader.hide();    
+	      });
+	      
+	      return {
+	        items: items
+	      };
+  	},
+    on: {
+      pageInit: function (e, page) {
+        var self = this;
+        var now = new Date();
+        var app = self.$app;
+        var $ = self.$;
+        var name = this.$route.params.name;
+        var id = this.$route.params.id;
+        var day = ("0" + now.getDate()).slice(-2);
+    	var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    	var today = now.getFullYear()+"/"+(month)+"/"+(day) ;
+
+        if(name){
+        	$('.my-item-form').removeClass('hide');
+        	$('.my-popup').addClass('hide');
+        }
+        	
+        $('.add-my-class').val(name);
+        $('.add-patient').val(id);
+
+
+  		self.virtualList = self.$app.virtualList.create({
+          // List Element
+          el: self.$el.find('.virtual-list'),
+          // Pass array with items
+          items: self.items,
+          // Custom search function for searchbar
+          searchAll: function (query, items) {
+            var found = [];
+            for (var i = 0; i < items.length; i++) {
+              if (items[i].title.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
+            }
+            return found; //return array with mathced indexes
+          },
+          // List item Template7 template
+          itemTemplate:
+            '<li>' +
+              '<a class="open-vertical item-link item-content">' +
+                '<div class="item-inner">' +
+                  '<div class="item-title-row">' +
+                    '<div class="item-subtitle item-subtitle-me center">'+
+                        '<span class="{{id}}">{{id}} | {{subtitle}} | {{gender}}'+
+                        '</span>'+
+                        '<div class="hide" id="{{id}}">{{id}}</div>'+
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+              '</a>' +
+            '</li>',
+          // Item height
+          height: self.$theme.ios ? 63 : 73,
+        });
+
+        // ============== defaul date ==============//
+
+        $( ".datefrom" ).val(today);
+        $( ".datefilter" ).val(today);
+
+        // ============== calenda from ==============//
+        var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'];
+        self.calendarfrom = app.calendar.create({
+          	inputEl: '#calendar-from',
+          	on: {
+			  	init: function(calendar) {
+			    	$('.calendar-month-name').text(monthNames[calendar.currentMonth] +' ' + calendar.currentYear);
+			  	},
+			  	monthYearChangeStart: function (calendar) {
+			    	$('.calendar-month-name').text(monthNames[calendar.currentMonth] +' ' + calendar.currentYear);
+			  	},
+			  	dayClick: function(calendar, dayEl, year, month, day) {
+			  		var months = parseInt(month) + 1;
+			    	var selectedDay = year+'/'+(months)+'/'+day; // selected day
+			    	var currentDay = $('.calendar-day-today span').text(); //current day
+			    	//console.log(selectedDay);
+			    	$('.datefrom').val(selectedDay);
+
+			    	app.calendar.close();
+			  	}
+			},
+
+        });
+
+		//=============== calendar to =================//
+
+		var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'];
+        self.calendarto = app.calendar.create({
+          	inputEl: '#calendar-filter',
+          	on: {
+			  	init: function(calendar) {
+			    	$('.calendar-month-name').text(monthNames[calendar.currentMonth] +' ' + calendar.currentYear);
+			  	},
+			  	monthYearChangeStart: function (calendar) {
+			    	$('.calendar-month-name').text(monthNames[calendar.currentMonth] +' ' + calendar.currentYear);
+			  	},
+			  	dayClick: function(calendar, dayEl, year, month, day) {
+			  		var months = parseInt(month) + 1;
+			    	var selectedDay = year+'/'+(months)+'/'+day; // selected day
+			    	var currentDay = $('.calendar-day-today span').text(); //current day
+			    	//console.log(selectedDay);
+			    	$('.datefilter').val(selectedDay);
+
+			    	app.calendar.close();
+			  	}
+			},
+
+        });
+
+        //================ close popup filter ======================//
+
+        $('.popup-close-filter').click(function(){
+        	app.popup.close('.popup-about',true);
+        });
+
+        //================ add patient to textbox ===================//
+
+		$(document).on('click','.virtual-list li', function(){
+			var pid = $(this).find('a div div div div').attr('id');
+			var name = $(this).find('a div div div span').text();
+			$('.patient-name').val(name);
+	        $('.patient').val(pid);
+	        $('.btn-filter').removeAttr('disabled','disabled');
+	        app.popup.close('.demo-popup',true);
+		});
+
+		$('.popup-close-patient').click(function(){
+            app.popup.close('.demo-popup',true);
+        });
+
+        var pid = $('.patient').val();
+        var datefrom = $('.datefrom').val();
+	    var date = $('.datefilter').val();
+	    var name = $('.patient-name').val();
+
+	    if(date == "" || pid == "")
+	    {
+	    	$('.btn-filter').attr('disabled','disabled');
+	    }
+	    $('.btn-filter').click(function(){
+        	var pid = $('.patient').val();
+	        var datefrom = $('.datefrom').val();
+		    var date = $('.datefilter').val();
+		    var name = $('.patient-name').val();
+		    
+        	self.getRequest(datefrom,date,pid);
+	        self.getPrescription(datefrom,date,pid);
+		    self.getDiagnosis(datefrom,date,pid);
+		    self.getVitaldign(datefrom,date,pid);
+	        self.getAllergy(pid);
+
+	        $('.resultfilter').removeClass('hide');
+
+	        if(datefrom == "" && date == "")
+	        {
+	        	$('.result-date').addClass('hide');
+	        }else{
+	        	$('.result-date').removeClass('hide');
+	        }
+
+	        $('.P-name').text(name);
+	        $('.F-date').text(datefrom);
+	        $('.T-date').text(date);
+
+	        app.popup.close('.popup-about',true);
+        });
+
+      },
+      pageBeforeRemove() {
+        var self = this;
+        self.calendarfrom.destroy();
+        self.calendarto.destroy();
+        self.virtualList.destroy();
+      },
+    },
+    methods: {
+    	getPrescription: function(datefrom,date,pid)
+    	{
+    		var link = this.$route.params.link;
+    		$('.prescriptionfilter').html('');
+    		var html = "";
+    		app.request.post('http://'+link+'/Hospital/dynamicController/getprescription', 
+		    { 	
+		    	datefrom: datefrom, date: date, pid: pid
+		    }, 
+		    function (data) {
+	    		data = JSON.parse(data);
+	    		console.log(data);
+		    	for (var i = 0; i < data.length; i++) {
+		    		html+='<div class="timeline-item">'+
+					    '<div class="timeline-item-divider"></div>'+
+					    '<div class="timeline-item-content" style="width: 100%;">'+
+					        '<div class="timeline-item-inner">'+
+								'<div class="timeline-item-text">Date: '+data[i].Date+'</div>'+
+								'<div class="timeline-item-text">Administration: '+data[i].Administration+'</div>'+
+								'<div class="timeline-item-text">Description: '+data[i].Description+'</div>'+
+								'<div class="timeline-item-text">Frequency: '+data[i].Frequency+'</div>'+
+								'<div class="timeline-item-text">ItemID: '+data[i].ItemID+'</div>'+
+								// '<div class="timeline-item-text">PatientID: '+data[i].PatientID+'</div>'+
+								'<div class="timeline-item-text">Period: '+data[i].Period+'</div>'+
+								'<div class="timeline-item-text">PrescriptionType: '+data[i].PrescriptionType+'</div>'+
+								'<div class="timeline-item-text">Remark: '+data[i].Remark+'</div>'+
+								'<div class="timeline-item-text">StartDate: '+data[i].StartDate+'</div>'+
+								'<div class="timeline-item-text">TreatmentNo: '+data[i].TreatmentNo+'</div>'+
+								'<div class="timeline-item-text">VisitNo: '+data[i].VisitNo+'</div>'+
+							'</div>'+
+					    '</div>'+
+					'</div>';
+		    	}
+		    	
+		    	if(data == "")
+		    	{
+		    		html+='<div class="timeline-item">'+
+							    '<div class="timeline-item-divider"></div>'+
+							    '<div class="timeline-item-content" style="width: 100%;">'+
+							        '<div class="timeline-item-inner">'+
+										'<div class="timeline-item-text">Nothing found.</div>'+
+									'</div>'+
+							    '</div>'+
+							'</div>';
+		    	}
+		    	$('.prescriptionfilter').append(html);
+
+		    });
+
+    	},
+    	getDiagnosis: function(datefrom,date,pid)
+    	{
+    		var link = this.$route.params.link;
+    		var html = "";
+    		$('.diagnosisfilter').html('');
+    		app.request.post('http://'+link+'/Hospital/dynamicController/getdiagnosis', 
+		    { 	
+		    	datefrom: datefrom, date: date, pid: pid
+		    }, 
+		    function (data) {
+	    		data = JSON.parse(data);
+	    		console.log(data);
+	    		for (var i = 0; i < data.length; i++) {
+		    		html+='<div class="timeline-item">'+
+					    '<div class="timeline-item-divider"></div>'+
+					    '<div class="timeline-item-content" style="width: 100%;">'+
+					        '<div class="timeline-item-inner">'+
+								'<div class="timeline-item-text">Date: '+data[i].Date+'</div>'+
+								'<div class="timeline-item-text">Diagnosis: '+data[i].Diagnosis+'</div>'+
+								'<div class="timeline-item-text">DiagnosisBy: '+data[i].DiagnosisBy+'</div>'+
+								'<div class="timeline-item-text">DiagnosisByID: '+data[i].DiagnosisByID+'</div>'+
+								'<div class="timeline-item-text">DiagnosisCode: '+data[i].DiagnosisCode+'</div>'+
+								// '<div class="timeline-item-text">PatientID: '+data[i].PatientID+'</div>'+
+								'<div class="timeline-item-text">Remark: '+data[i].Remark+'</div>'+
+								'<div class="timeline-item-text">TreatmentNo: '+data[i].TreatmentNo+'</div>'+
+								'<div class="timeline-item-text">VisitNo: '+data[i].VisitNo+'</div>'+
+							'</div>'+
+					    '</div>'+
+					'</div>';
+		    	}
+		    	
+		    	if(data == "")
+		    	{
+		    		html+='<div class="timeline-item">'+
+							    '<div class="timeline-item-divider"></div>'+
+							    '<div class="timeline-item-content" style="width: 100%;">'+
+							        '<div class="timeline-item-inner">'+
+										'<div class="timeline-item-text">Nothing found.</div>'+
+									'</div>'+
+							    '</div>'+
+							'</div>';
+		    	}
+		    	$('.diagnosisfilter').append(html);
+		    });
+    	},
+    	getRequest: function(datefrom,date,pid)
+    	{
+    		var link = this.$route.params.link;
+    		var html = "";
+    		$('.requestfilter').html('');
+    		app.request.post('http://'+link+'/Hospital/dynamicController/getrequest', 
+		    { 	
+		    	datefrom: datefrom, date: date, pid: pid
+		    }, 
+		    function (data) {
+	    		data = JSON.parse(data);
+	    		console.log(data);
+		    	for (var i = 0; i < data.length; i++) {
+		    		html+='<div class="timeline-item">'+
+					    '<div class="timeline-item-divider"></div>'+
+					    '<div class="timeline-item-content" style="width: 100%;">'+
+					        '<div class="timeline-item-inner">'+
+								'<div class="timeline-item-text">TreatmentNo: '+data[i].TreatmentNo+'</div>'+
+								'<div class="timeline-item-text">Date: '+data[i].Date+'</div>'+
+								'<div class="timeline-item-text">VisitNo: '+data[i].VisitNo+'</div>'+
+								// '<div class="timeline-item-text">PatientID: '+data[i].PatientID+'</div>'+
+								'<div class="timeline-item-text">RequestType: '+data[i].RequestType+'</div>'+
+								'<div class="timeline-item-text">ItemID: '+data[i].ItemID+'</div>'+
+								'<div class="timeline-item-text">ItemName: '+data[i].ItemName+'</div>'+
+								'<div class="timeline-item-text">Description: '+data[i].Description+'</div>'+
+								'<div class="timeline-item-text">Status: '+data[i].Status+'</div>'+
+							'</div>'+
+					    '</div>'+
+					'</div>';
+		    	}
+		    	
+		    	if(data == "")
+		    	{
+		    		html+='<div class="timeline-item">'+
+							    '<div class="timeline-item-divider"></div>'+
+							    '<div class="timeline-item-content" style="width: 100%;">'+
+							        '<div class="timeline-item-inner">'+
+										'<div class="timeline-item-text">Nothing found.</div>'+
+									'</div>'+
+							    '</div>'+
+							'</div>';
+		    	}
+		    	$('.requestfilter').append(html);
+		    });
+    	},
+    	getVitaldign: function(datefrom,date,pid)
+    	{
+    		var link = this.$route.params.link;
+    		var html = "";
+    		$('.vitalsignfilter').html('');
+    		app.request.post('http://'+link+'/Hospital/dynamicController/getvitalsign', 
+		    { 	
+		    	datefrom: datefrom, date: date, pid: pid
+		    }, 
+		    function (data) {
+	    		data = JSON.parse(data);
+	    		console.log(data);
+		    	for (var i = 0; i < data.length; i++) {
+		    		html+='<div class="timeline-item">'+
+					    '<div class="timeline-item-divider"></div>'+
+					    '<div class="timeline-item-content" style="width: 100%;">'+
+					        '<div class="timeline-item-inner">'+
+
+								// '<div class="timeline-item-text">PatientName: '+data[i].PatientName+'</div>'+
+								// '<div class="timeline-item-text">PatientID: '+data[i].PatientID+'</div>'+
+								'<div class="timeline-item-text">No: '+data[i].No+'</div>'+
+								'<div class="timeline-item-text">Date: '+data[i].Date+'</div>'+
+								'<div class="timeline-item-text">VisitNo: '+data[i].VisitNo+'</div>'+
+								'<div class="timeline-item-text">Weight: '+data[i].Weight+'</div>'+
+								'<div class="timeline-item-text">Height: '+data[i].Height+'</div>'+
+								'<div class="timeline-item-text">DBP: '+data[i].DBP+'</div>'+
+								'<div class="timeline-item-text">SBP: '+data[i].SBP+'</div>'+
+								'<div class="timeline-item-text">Heartrate: '+data[i].Heartrate+'</div>'+
+								'<div class="timeline-item-text">Temporature: '+data[i].Temporature+'</div>'+
+								'<div class="timeline-item-text">RespiratoryRate: '+data[i].RespiratoryRate+'</div>'+
+								'<div class="timeline-item-text">Description: '+data[i].Description+'</div>'+
+
+							'</div>'+
+					    '</div>'+
+					'</div>';
+		    	}
+		    	
+		    	if(data == "")
+		    	{
+		    		html+='<div class="timeline-item">'+
+							    '<div class="timeline-item-divider"></div>'+
+							    '<div class="timeline-item-content" style="width: 100%;">'+
+							        '<div class="timeline-item-inner">'+
+										'<div class="timeline-item-text">Nothing found.</div>'+
+									'</div>'+
+							    '</div>'+
+							'</div>';
+		    	}
+		    	$('.vitalsignfilter').append(html);
+		    });
+    	},
+    	getAllergy: function(pid)
+    	{
+    		var link = this.$route.params.link;
+    		var html = "";
+    		$('.allergyfilter').html('');
+    		app.request.post('http://'+link+'/Hospital/dynamicController/getallergy', 
+		    { 	
+		    	pid: pid
+		    }, 
+		    function (data) {
+	    		data = JSON.parse(data);
+	    		console.log(data);
+	    		for (var i = 0; i < data.length; i++) {
+		    		html+='<div class="timeline-item">'+
+					    '<div class="timeline-item-divider"></div>'+
+					    '<div class="timeline-item-content" style="width: 100%;">'+
+					        '<div class="timeline-item-inner">'+
+
+								// '<div class="timeline-item-text">PatientID: '+data[i].PatientID+'</div>'+
+								'<div class="timeline-item-text">GenericName: '+data[i].GenericName+'</div>'+
+								'<div class="timeline-item-text">Remark: '+data[i].Remark+'</div>'+
+
+							'</div>'+
+					    '</div>'+
+					'</div>';
+		    	}
+		    	
+		    	if(data == "")
+		    	{
+		    		html+='<div class="timeline-item">'+
+							    '<div class="timeline-item-divider"></div>'+
+							    '<div class="timeline-item-content" style="width: 100%;">'+
+							        '<div class="timeline-item-inner">'+
+										'<div class="timeline-item-text">Nothing found.</div>'+
+									'</div>'+
+							    '</div>'+
+							'</div>';
+		    	}
+		    	$('.allergyfilter').append(html);
+	    	});
+    	}
+    },
+  }
+
+</script>

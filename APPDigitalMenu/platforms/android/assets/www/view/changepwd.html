@@ -1,0 +1,212 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a class="link back">
+            <i class="far fa-arrow-alt-circle-left"></i>
+            <span class="ios-only">Back</span>
+          </a>
+        </div>
+        <div class="title" style="left: 0px; width: 100%; text-align: center !important;">
+        	<img src="img/changepassword.png">
+        </div>
+        <div class="right link logout-page" style="cursor: pointer;">
+        	<i class="fas fa-sign-out-alt"></i>
+        </div>
+      </div>
+    </div>
+    <div class="page-content" style="padding: 0px 10px;">
+       <div class="block block-strong my-block">
+    		<img class="my-profile" src="img/icon/man-big.png">
+    	</div>
+	    <div class="list my-list-ch">
+	    	<form name="formnewpassword" id="formnewpassword" method="post">
+		        <ul>
+		          <li>
+		            <div class="item-content" style="padding-left: 0px;">
+		                <input class="chpwd current-pwd" type="password" name="curpwd" placeholder="Current Password">
+		            </div>
+		            <p class="my-message hide"></p>
+		          </li>
+		          <li>
+		            <div class="item-content" style="padding-left: 0px;">
+		                <input class="chpwd new-pwd" type="password" name="newpwd" placeholder="New Password" pattern=".{6,}">
+		            </div>
+		            <p class="my-messages newpassword hide"></p>
+		          </li>
+		          <li>
+		            <div class="item-content" style="padding-left: 0px;">
+		                <input class="chpwd confirm-new-pwd" type="password" name="confirmnewpwd" placeholder="Confirm New Password" required>
+		            </div>
+		            <p class="my-messages confirmnewpassword hide"></p>
+		          </li>
+		          <li>
+		            <div class="item-content" style="padding-left: 0px;">
+		                <a style="width: 100%;" class="col button button-small button-round button-fill" @click="savePassword">Change Password</a>
+		            </div>
+		          </li>
+		        </ul>
+	        </form>
+	    </div>
+    </div>
+  </div>
+</template>
+<script>
+	return{
+		on:{
+			pageInit: function () {
+				var user = $('.my-display-user').text();
+				var link = this.$route.params.link;
+				$('.current-pwd').change(function(){
+					app.request.post('http://'+link+'/Hospital/dynamicController/changepassword', 
+					{ username: user, password: $(this).val() }, 
+					function (data) {
+						app.preloader.show();
+					    if(data != "false")
+					    {
+					    	$('.current-pwd').removeClass('border');
+					    	$('.current-pwd').addClass('chpwd');
+					    	$('.my-message').addClass('hide');
+					    }else{
+					    	$('.my-message').text('Your current password is incorrect.');
+					    	$('.current-pwd').removeClass('chpwd');
+					    	$('.current-pwd').addClass('border');
+					    	$('.my-message').removeClass('hide');
+					    }
+					    app.preloader.hide();
+					});
+				});
+				// ==================== new password ======================//
+				$('.new-pwd').change(function(){
+					var newpwd = $(this).val();
+					if(newpwd.length < 6)
+					{
+						$(this).removeClass('chpwd');
+						$(this).addClass('border');
+						$('.newpassword').removeClass('hide');
+						$('.newpassword').text('Please enter your new password more then 6 chareter.');
+					}else{
+						$('.new-pwd').removeClass('border');
+						$('.new-pwd').addClass('chpwd');
+						$('.newpassword').addClass('hide');
+					}
+				});
+
+				$('.confirm-new-pwd').change(function(){
+					var confirm = $(this).val();
+					var newpwd  = $('.new-pwd').val();
+					if(confirm.length < 6)
+					{
+						$(this).removeClass('chpwd');
+						$(this).addClass('border');
+						$('.confirmnewpassword').removeClass('hide');
+						$('.confirmnewpassword').text('Please enter your confirm new password more then 6 chareter.');
+					}else{
+						$(this).removeClass('border');
+						$(this).addClass('chpwd');
+						$('.confirmnewpassword').addClass('hide');
+					}
+					// ============== validate length ===============//
+					if(newpwd !="")
+					{
+						if(confirm != newpwd)
+						{
+							$(this).removeClass('chpwd');
+							$(this).addClass('border');
+							$('.confirmnewpassword').removeClass('hide');
+							$('.confirmnewpassword').text('Your confirm new password is in correct.');
+						}else{
+							$(this).removeClass('border');
+							$(this).addClass('chpwd');
+							$('.confirmnewpassword').addClass('hide');
+						}
+					}
+
+				});
+				// =========================logout======================//
+				$('.logout-page').click(function(){
+		            app.preloader.show();
+		            setTimeout(function(){
+		              location.reload();
+		            },1000);
+		        });
+		        
+		        
+			},
+		},
+		methods:{
+			savePassword: function()
+			{
+				app.preloader.show();
+				var user = $('.my-display-user').text();
+				var link = this.$route.params.link;
+				var formData = app.form.convertToData('#formnewpassword');
+				var currentpwd  = formData['curpwd'];
+				var newpassword = formData['newpwd'];
+				var confirmpwd  = formData['confirmnewpwd'];
+
+				if(currentpwd == "")
+				{
+					app.preloader.hide();
+					$('.current-pwd').removeClass('chpwd');
+					$('.current-pwd').addClass('border');
+					$('.my-message').removeClass('hide');
+					$('.my-message').text('Please enter your current password.');
+				}else if(newpassword == ""){
+					$('.new-pwd').removeClass('chpwd');
+					$('.new-pwd').addClass('border');
+					$('.newpassword').removeClass('hide');
+					$('.newpassword').text('Please enter your new password.');
+					app.preloader.hide();
+				}else if(confirmpwd == ""){
+					$('.confirm-new-pwd').removeClass('chpwd');
+					$('.confirm-new-pwd').addClass('border');
+					$('.confirmnewpassword').removeClass('hide');
+					$('.confirmnewpassword').text('Please enter confirm new password.');
+					app.preloader.hide();
+				}else if(confirmpwd != newpassword){
+					$('.confirm-new-pwd').removeClass('chpwd');
+					$('.confirm-new-pwd').addClass('border');
+					$('.confirmnewpassword').removeClass('hide');
+					$('.confirmnewpassword').text('Your confirm new password is in correct.');
+					app.preloader.hide();
+					app.dialog.alert('Your confirm new password is in correct.');
+				}else if(confirmpwd.length < 6 && newpassword.length < 6){
+					$('.confirm-new-pwd').removeClass('chpwd');
+					$('.confirm-new-pwd').addClass('border');
+					$('.confirmnewpassword').removeClass('hide');
+					$('.confirmnewpassword').text('Please enter your new password more then 6 chareter.');
+					// ================ confirm ==================//
+					$('.confirm-new-pwd').removeClass('chpwd');
+					$('.confirm-new-pwd').addClass('border');
+					$('.confirmnewpassword').removeClass('hide');
+					$('.confirmnewpassword').text('Please enter your confirm new password more then 6 chareter.');
+					app.preloader.hide();
+				}else{
+
+					app.request.post('http://'+link+'/Hospital/dynamicController/changepassword', 
+					{ username: user, password: currentpwd},
+					function (data) {
+						if(data != "false")
+						{
+							app.request.post('http://'+link+'/Hospital/dynamicController/saveNewpassword', 
+							{ username: user, password: confirmpwd }, 
+							function (data) {
+								app.preloader.hide();
+								app.dialog.alert(data);
+								$('#formnewpassword')[0].reset();
+							});
+						}else{
+							app.preloader.hide();
+							app.dialog.alert('Your current password is in correct.');
+						}
+					});
+
+					
+				}
+				
+			}
+		}
+	}
+</script>

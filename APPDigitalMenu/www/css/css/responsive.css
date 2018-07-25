@@ -1,0 +1,47 @@
+/* large mobie. */
+@media (min-width: 320px) and (max-width:458px) {
+.slider-area .swiper-slide:after {
+    top: -36px;
+}
+.slide-text {
+    padding: 12% 0;
+}
+.slide-text h2,.slide-text p {
+    font-size: 14px;
+}
+
+
+
+
+}/* large mobie. */
+@media (min-width: 459px) and (max-width:748px) {
+.slide-text > p {
+  font-size: 22px;
+  margin-bottom: 17px;
+}
+.slide-text h2 {
+  font-size: 23px;
+  line-height: 32px;
+}
+}
+
+/* Tablet desktop :768px. */
+@media (min-width: 749px) {
+
+.slide-text > p {
+  font-size: 38px;
+  margin-bottom: 30px;
+}
+.slide-text h2 {
+  font-size: 39px;
+  line-height: 50px;
+
+}
+.slider-area .swiper-slide::after {
+  height: 169%;
+  right: -111px;
+  top: -122px;
+}
+
+}
+
