@@ -1,0 +1,210 @@
+<template>
+  <div class="page" style="padding-top: 20px;">
+  <div class="navbar">
+    <div class="navbar-inner sliding">
+      <div class="left">
+        <a class=" back">
+          <i class="far fa-arrow-alt-circle-left"></i>
+          <span class="ios-only">Back</span>
+        </a>
+      </div>
+      <div class="title" style="left: 0px; width: 100%; text-align: center !important;">
+        <img src="img/visit.png">
+      </div>
+      <div class="right">
+          <a class="smart-select smart-select-init" data-open-in="popover">
+            <select name="optvisit" class="optvisit">
+              <optgroup label="IPDStatus">
+                <option value="In">Status-In</option>
+                <option value="Out">Status-Out</option>
+              </optgroup>
+              <optgroup label="Other Filter">
+                <option value="1">All (Today)</option>
+                <option value="7">All (Last 7 days)</option>
+              </optgroup>
+            </select>
+            <div class="item-content my-content">
+              <div class="item-inner">
+                <div class="item-title"><i class="fas fa-sliders-h"></i></div>
+              </div>
+            </div>
+          </a>
+      </div>
+
+
+      <div class="subnavbar" style="margin-top: 10px;">
+        <form data-search-container=".search-list" data-search-in=".item-title" class="searchbar searchbar-init">
+          <div class="searchbar-inner">
+            <div class="searchbar-input-wrap">
+              <input type="search" class="hide-bar" placeholder="Search"/>
+              <i class="searchbar-icon"></i>
+              <span class="input-clear-button"></span>
+            </div>
+            <span class="searchbar-disable-button">Cancel</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="toolbar tabbar-labels toolbar-bottom-md">
+      <div class="toolbar-inner">
+        <a href="/" class="my-btoom-tab tab-link-active">
+          <i class="icon material-icons md-only my-icon">
+            <i class="fas fa-home"></i>
+          </i>
+          <span class="tabbar-label">Home</span>
+        </a>
+        <a href="/" class="my-btoom-tab">
+          <i class="icon material-icons md-only my-icon">
+            <i class="fas fa-th"></i>
+          </i>
+          <span class="tabbar-label">Menu</span>
+        </a>
+        <a href="#view-settings" class="my-btoom-tab">
+          <i class="icon material-icons md-only my-icon">
+            <i class="fas fa-cog"></i>
+          </i>
+          <span class="tabbar-label">Settings</span>
+        </a>
+      </div>
+  </div> -->
+  <div class="page-content">
+    <div class="searchbar-backdrop"></div>
+    <div class="list search-list searchbar-found">  
+      <ul></ul>
+    </div>
+    <div class="block searchbar-not-found" style="text-align: center;">
+      <div class="block-inner">Nothing found</div>
+    </div>
+  </div>
+</div>
+
+</template>
+
+
+<script> 
+
+  return {
+    on: {
+      
+      pageInit: function() {
+        //app.preloader.show();
+        var self = this;
+
+        var link = this.$route.params.link;
+        var opt = '';
+        self.loadVisit(link,opt);
+
+        self.searchbar = app.searchbar.create({
+            el: '.searchbar',
+            searchContainer: '.list',
+            searchIn: '.item-title',
+            on: {
+              search(sb, query, previousQuery) {
+                console.log(query, previousQuery);
+              }
+            }
+          });
+        // =================== option =======================//
+
+        $('.optvisit').change(function(){
+            opt = $(this).val(); //console.log(opt);
+            self.loadVisit(link,opt);
+            app.popover.close();
+        });
+
+
+      },
+      pageBeforeRemove: function () {
+        var self = this;
+        //self.virtualList.destroy();
+      }
+    },
+    methods: {
+        loadVisit: function(link,opt)
+        {
+              var html = "";
+              app.request.post('http://'+link+'/Hospital/dynamicController/loadVisit',
+              {opt: opt}, 
+              function (data) {
+                $('.search-list').find('ul').html(''); 
+                app.preloader.show();
+                data = JSON.parse(data);
+                var length = data.length; console.log(length);
+
+                if(length == 0)
+                {
+                    $('.searchbar-not-found').css('display','block');
+                    app.preloader.hide();
+                }else{
+                    $('.searchbar-not-found').css('display','none');
+                    for (var i = 0; i < data.length; i++) {
+                      html +='<li>' +
+                              '<div class="open-vertical item-content" style="padding-left: 5px;">' +
+                                '<div class="item-inner" style="padding-right: 5px; background-image: none;">' +
+                                    '<div class="item-subtitle item-subtitle-me center" style="width:100%;">'+
+                                        '<div class="timeline-mylist">'+
+                                          '<div class="timeline-item">'+
+                                              '<div class="timeline-item-content full-my">'+
+                                                  '<div class="timeline-item-inner">'+
+                                                      '<div class="timeline-item-text">'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">Date: </div>'+
+                                                              '<div class="col-70">| '+data[i].VisitingDate+'</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">VisitNo: </div>'+
+                                                              '<div class="col-70 item-title">| '+data[i].VisitNo+'</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">PatientID: </div>'+
+                                                              '<div class="col-70 item-title">| '+data[i].PatientID+'</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">P-Name: </div>'+
+                                                              '<div class="col-70 item-title">| '+data[i].PatientName+'</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">Gender: </div>'+
+                                                              '<div class="col-70">| '+data[i].Gender+'</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">Age: </div>'+
+                                                              '<div class="col-70">| '+data[i].AgeAtVisit+'</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">IPDStatus: </div>'+
+                                                              '<div class="col-70">| '+data[i].IPDStatus+'</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">VisitType: </div>'+
+                                                              '<div class="col-70">| '+data[i].PatientType+'</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">D-ment: </div>'+
+                                                              '<div class="col-70">| '+data[i].Department+'</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<a href="/addvsign/'+link+'/'+data[i].PatientID+'/'+data[i].PatientID+' | '+data[i].PatientName+' | '+data[i].Gender+'" class="col button button-small button-round button-fill">Register Vital Sign</a>'+
+                                                          '</div>'+
+                                                      '</div>'+
+                                                  '</div>'+
+                                              '</div>'+
+                                      '</div>'+
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>' +
+                              '</div>' +
+                            '</li>';
+                      
+                    }
+                    app.preloader.hide();
+                    $('.search-list').find('ul').append(html);
+                }    
+              });
+        }
+    }         
+         
+  }
+
+</script>

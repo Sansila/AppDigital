@@ -1,0 +1,391 @@
+<template>
+  <div class="page" style="padding-top: 20px;">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a class=" back">
+            <i class="far fa-arrow-alt-circle-left"></i>
+            <span class="ios-only">Back</span>
+          </a>
+        </div>
+        <div class="title" style="left: 0px; width: 100%; text-align: center !important;">
+        	<img src="img/vitaulsign.png">
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="toolbar tabbar-labels toolbar-bottom-md">
+      <div class="toolbar-inner">
+        <a href="/" class="my-btoom-tab tab-link-active">
+          <i class="icon material-icons md-only my-icon">
+          	<i class="fas fa-home"></i>
+          </i>
+          <span class="tabbar-label">Home</span>
+        </a>
+        <a href="/" class="my-btoom-tab">
+          <i class="icon material-icons md-only my-icon">
+          	<i class="fas fa-th"></i>
+          </i>
+          <span class="tabbar-label">Menu</span>
+        </a>
+        <a href="#view-settings" class="my-btoom-tab">
+          <i class="icon material-icons md-only my-icon">
+          	<i class="fas fa-cog"></i>
+          </i>
+          <span class="tabbar-label">Settings</span>
+        </a>
+      </div>
+    </div> -->
+
+    <div class="main-content">
+		<div class="page-content">
+			<form id="formvsign">
+		    <div class="list no-hairlines-md">
+		      <ul>
+		      	<li>
+		            <div class="item-content item-input">
+		              <div class="item-inner">
+		              	<!-- <div class="item-title item-label">Date & Time</div> -->
+		                <div class="item-form">
+		                  <input type="text" name="datetime" placeholder="Date & Time" readonly="readonly" id="demo-calendar-default"/>
+		                </div>
+		              </div>
+		            </div>
+	           </li>
+	           <li class="item-content item-input">
+		          	<div class="item-inner">
+		          		<div class="item-form my-item-form hide">
+		          			<input type="text" name="read" class="add-my-class" placeholder="Patient Name">
+		          	    </div>
+		          		<a class="button button-raised popup-open my-popup" data-popup=".demo-popup">
+		          			<input type="text" name="read" class="my-class" placeholder="Patient Name">
+		          			<input type="hidden" name="patient" class="patient add-patient">
+		          		</a>
+		        	</div>
+		        </li>
+
+		        <li class="item-content item-input">
+		          <div class="item-inner">
+		            <!-- <div class="item-title item-label">Visit No</div> -->
+		            <div class="item-form">
+		              <input type="number" class="hide-bar" name="visit" placeholder="Visit No" required validate>
+		              <span class="input-clear-button fornum"></span>
+		            </div>
+		          </div>
+		        </li>
+		        <li class="item-content item-input">
+		          <div class="item-inner">
+		            <!-- <div class="item-title item-label">Visiting Person</div> -->
+		            <div class="item-form">
+		              	<div class="item-form">
+		              		<input type="text" class="hide-bar" name="visitperson" placeholder="Visiting Person">
+		              		<span class="input-clear-button fornum"></span>
+		            	</div>
+		            </div>
+		          </div>
+		        </li>
+		        <li class="item-content item-input">
+
+		          <div class="item-inner">
+		            <!-- <div class="item-title item-label">Temporature</div> -->
+		            <div class="item-form">
+		              <input type="number" name="temp" class="hide-bar" placeholder="Temporature" required validate>
+		              <span class="input-clear-button fornum"></span>
+		            </div>
+		          </div>
+		        </li>
+		        <li class="item-content item-input">
+
+		          <div class="item-inner">
+		            <!-- <div class="item-title item-label">Height</div> -->
+		            <div class="item-form">
+		              <input type="number" name="height" class="hide-bar" placeholder="Height" required validate>
+		              <span class="input-clear-button fornum"></span>
+		            </div>
+		          </div>
+		        </li>
+		        <li class="item-content item-input">
+		          <div class="item-inner">
+		            <!-- <div class="item-title item-label">Weight</div> -->
+		            <div class="item-form">
+		              <input type="number" name="weight" class="hide-bar" placeholder="Weight" required validate>
+		              <span class="input-clear-button fornum"></span>
+		            </div>
+		          </div>
+		        </li>
+		        <li class="item-content item-input">
+		          <div class="item-inner">
+		            <!-- <div class="item-title item-label">SBP</div> -->
+		            <div class="item-form">
+		              <input type="number" name="sbp" class="hide-bar" placeholder="SBP" required validate>
+		              <span class="input-clear-button fornum"></span>
+		            </div>
+		          </div>
+		        </li>
+		        <li class="item-content item-input">
+		          <div class="item-inner">
+		            <!-- <div class="item-title item-label">DBP</div> -->
+		            <div class="item-form">
+		              <input type="number" name="dbp" class="hide-bar" placeholder="DBP" required validate>
+		              <span class="input-clear-button fornum"></span>
+		            </div>
+		          </div>
+		        </li>
+		        <li class="item-content item-input">
+		          <div class="item-inner">
+		            <!-- <div class="item-title item-label">Heart Rate</div> -->
+		            <div class="item-form">
+		              <input type="number" name="heatrate" class="hide-bar" placeholder="Heart Rate" required validate>
+		              <span class="input-clear-button fornum"></span>
+		            </div>
+		          </div>
+		        </li>
+		        <li class="item-content item-input">
+		          <div class="item-inner">
+		            <!-- <div class="item-title item-label">Respiratory</div> -->
+		            <div class="item-form">
+		              <input type="number" name="registery" class="hide-bar" placeholder="Respiratory" required validate>
+		              <span class="input-clear-button fornum"></span>
+		            </div>
+		          </div>
+		        </li>
+		        <li class="item-content item-input">
+
+		          <div class="item-inner">
+		            <!-- <div class="item-title item-label">Description</div> -->
+		            <div class="item-form">
+		              <textarea placeholder="Description" class="hide-bar" name="description"></textarea>
+		            </div>
+		          </div>
+		        </li>
+		      </ul>
+		    </div>
+		    <div class="block">
+			  <div class="row">
+			    <a class="col button button-fill button-round" @click="saveForm">Save</a>
+			    <a class="col button button-fill button-round link back" @click="resetform">Cancel</a>
+			  </div>
+			</div>
+		    </form>
+		</div>
+
+		<div class="popup demo-popup">
+	        <div class="page">
+		        <div class="navbar">
+		          <div class="navbar-inner">
+		            <div class="title">Patient</div>
+		            <div class="right">
+		            	<a href="#" class="link popup-close">
+		            		<img src="img/icon/close.png">
+		            	</a>
+		            </div>
+		          </div>
+		        </div>
+	            <div class="subnavbar" style="margin-top: 10px; height: 40px !important;">
+			      <form data-search-container=".virtual-list" data-search-item="li" data-search-in=".item-title" class="searchbar searchbar-init">
+			        <div class="searchbar-inner">
+			          <div class="searchbar-input-wrap">
+			            <input type="search" placeholder="Search"/>
+			            <i class="searchbar-icon"></i>
+			            <span class="input-clear-button"></span>
+			          </div>
+			          <span class="searchbar-disable-button">Cancel</span>
+			        </div>
+			      </form>
+			    </div>
+			    <div class="searchbar-backdrop"></div>
+			    <div class="page-content">
+			      <div class="list simple-list searchbar-not-found">
+			        <ul>
+			          <li>Nothing found</li>
+			        </ul>
+			      </div>
+			      <div class="list virtual-list media-list searchbar-found" style="margin: 0px;"></div>
+			    </div>
+		    </div>
+	    </div>
+	</div>
+  </div>
+</template>
+
+<script>
+	
+
+  return {
+
+	data: function()
+  	{
+   		  var link = this.$route.params.link;
+		  var items = [];
+	      var a = 15;
+	      app.request.json('http://'+link+'/Hospital/dynamicController/loaddetails', 
+	      function (data) {
+	        //console.log(data);
+	          app.preloader.show();
+	          for (var i = 0; i < data.length; i++) {
+	            items.push({
+	              id: data[i].PatientID,
+	              title: data[i].PatientName + data[i].PatientID,
+	              subtitle: data[i].PatientName,
+	              gender: data[i].Gender,
+	            });
+	          }
+	          app.preloader.hide();    
+	      });
+	      
+	      return {
+	        items: items
+	      };
+  	},
+    on: {
+      pageInit: function (e, page) {
+        var self = this;
+        var today = new Date();
+        var app = self.$app;
+        var $ = self.$;
+
+        var name = this.$route.params.name;
+        var id = this.$route.params.id;
+
+        if(name){
+        	$('.my-item-form').removeClass('hide');
+        	$('.my-popup').addClass('hide');
+        }
+        	
+        $('.add-my-class').val(name);
+        $('.add-patient').val(id);
+
+        // Default
+        self.calendarDefault = app.calendar.create({
+          	inputEl: '#demo-calendar-default',
+          	on: {
+			  	dayClick: function() {
+			    	app.calendar.close();
+			  	}
+			},
+        });
+
+
+  		self.virtualList = self.$app.virtualList.create({
+          // List Element
+          el: self.$el.find('.virtual-list'),
+          // Pass array with items
+          items: self.items,
+          // Custom search function for searchbar
+          searchAll: function (query, items) {
+            var found = [];
+            for (var i = 0; i < items.length; i++) {
+              if (items[i].title.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
+            }
+            return found; //return array with mathced indexes
+          },
+          // List item Template7 template
+          itemTemplate:
+            '<li>' +
+              '<a class="open-vertical item-link item-content">' +
+                '<div class="item-inner">' +
+                  '<div class="item-title-row">' +
+                    '<div class="item-subtitle item-subtitle-me center">'+
+                        '<span class="{{id}}">{{id}} | {{subtitle}} | {{gender}}'+
+                        '</span>'+
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+              '</a>' +
+            '</li>',
+          // Item height
+          height: self.$theme.ios ? 63 : 73,
+        });
+
+  		// $('div.item-subtitle').click(function(){
+  		// 	alert("hello");
+  		// });
+  		$(document).on("click", ".item-subtitle", function(){
+	        var val = $(this).find('span').attr('class');
+	        var name = $(this).find('span').text();
+	        $('.my-class').val(name);
+	        $('.patient').val(val);
+	        app.popup.close();
+		});
+
+      },
+      pageBeforeRemove() {
+        var self = this;
+        self.calendarDefault.destroy();
+        self.virtualList.destroy();
+      },
+    },
+    methods: {
+    	saveForm: function () {
+    		var link = this.$route.params.link;
+	        var app = this.$app;
+	        var formData = app.form.convertToData('#formvsign');
+	          //app.dialog.alert(JSON.stringify(formData));
+	          var date = formData['datetime'];
+	          var patient = formData['patient'];
+	          var visit = formData['visit'];
+	          var vperson = formData['visitperson'];
+	          var temp = formData['temp'];
+	          var height = formData['height'];
+	          var weight = formData['weight'];
+	          var sbp = formData['sbp'];
+	          var dbp = formData['dbp'];
+	          var heatrate = formData['heatrate'];
+	          var registery = formData['registery'];
+	          var description = formData['description'];
+	          //app.dialog.alert(pat);
+	        if(date == "")
+	        {
+	        	app.dialog.alert('Please Enter DateTime.');
+	        }else if($('.patient').val() === "")
+	        {
+	        	app.dialog.alert('Please Enter Select Patient.');
+	        }else if(visit == "")
+	        {
+	        	app.dialog.alert('Please Enter Visit No.');
+	        }else{
+
+	        	app.preloader.show();
+
+	        	app.request.post('http://'+link+'/Hospital/dynamicController/savedata', 
+				    { 	
+				    	date: date,
+				    	patient: patient,
+				    	visit: visit,
+				    	vperson: vperson,
+				    	temp: temp,
+				    	height: height,
+				    	weight: weight,
+				    	sbp: sbp,
+				    	dbp: dbp,
+				    	heatrate: heatrate,
+				    	registery: registery,
+				    	description: description
+				    }, 
+				    function (data) {
+				      	//console.log(data);
+				      	app.preloader.hide();
+				      	app.dialog.alert(data);
+
+				      	// ============= clear Data ==============//
+				      	
+				      	$('#formvsign')[0].reset();
+				      	$('.item-after').text("");
+				      	//$('.item-after').append("Select Patient");
+				      	//$('.fornum').css("visibility","hidden");
+
+				    });
+
+	        }
+      	},
+      	resetform: function(){
+			$('#formvsign')[0].reset();
+	      	$('.item-after').text("");
+	      	//$('.item-after').append("Select Patient");
+	      	//$('.fornum').css("visibility","hidden");
+
+      	},
+    },
+  }
+
+</script>

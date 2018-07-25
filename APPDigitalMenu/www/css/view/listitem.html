@@ -1,0 +1,245 @@
+<template>
+  <div class="page" style="padding-top: 20px;">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a class=" back">
+            <i class="far fa-arrow-alt-circle-left"></i>
+            <span class="ios-only">Back</span>
+          </a>
+        </div>
+        <div class="title" style="left: 0px; width: 100%; text-align: center !important;">
+          <img src="img/itemlist.png">
+        </div>
+        <div class="right">
+          <a class="smart-select smart-select-init" data-open-in="popup"  data-searchbar="true" data-searchbar-placeholder="Search Category">
+            <select name="category" class="category" multiple>
+                
+            </select>
+            <div class="item-content my-content">
+              <div class="item-inner" style="padding: 0px 8px;">
+                <div class="item-title"><i class="fas fa-sliders-h"></i></div>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <!-- <div class="toolbar tabbar-labels toolbar-bottom-md">
+      <div class="toolbar-inner">
+        <a href="/" class="my-btoom-tab tab-link-active">
+          <i class="icon material-icons md-only my-icon">
+            <i class="fas fa-home"></i>
+          </i>
+          <span class="tabbar-label">Home</span>
+        </a>
+        <a href="/" class="my-btoom-tab">
+          <i class="icon material-icons md-only my-icon">
+            <i class="fas fa-th"></i>
+          </i>
+          <span class="tabbar-label">Menu</span>
+        </a>
+        <a href="#view-settings" class="my-btoom-tab">
+          <i class="icon material-icons md-only my-icon">
+            <i class="fas fa-cog"></i>
+          </i>
+          <span class="tabbar-label">Settings</span>
+        </a>
+      </div>
+    </div> -->
+    <div class="subnavbar" style="margin-top: 10px; height: 40px !important;">
+      <form data-search-container=".virtual-list" data-search-item="li" data-search-in=".item-title" class="searchbar searchbar-init">
+        <div class="searchbar-inner">
+          <div class="searchbar-input-wrap">
+            <input class="option-hide-bar" type="search" placeholder="Search"/>
+            <i class="searchbar-icon"></i>
+            <span class="input-clear-button"></span>
+          </div>
+          <span class="searchbar-disable-button">Cancel</span>
+        </div>
+      </form>
+    </div>
+    <div class="searchbar-backdrop"></div>
+    <div class="page-content">
+      <div class="list simple-list searchbar-not-found">
+        <ul>
+          <li>Nothing found</li>
+        </ul>
+      </div>
+      <div class="myls list media-list hide"><ul style="height: auto;"></ul></div>
+      <div class="list virtual-list media-list searchbar-found category-list" style="margin: 0px;"></div>
+    </div>
+  </div>
+</template>
+<script> 
+
+  return {
+    data: function() {
+
+      var link = this.$route.params.link;
+      var items = [];
+      //console.log(items);
+      
+      app.request.json('http://'+link+'/Hospital/dynamicController/loaditem', 
+      function (data) {
+        //console.log(data);
+          app.preloader.show();
+          for (var i = 0; i < data.length; i++) {
+            items.push({
+              id: data[i].ItemID,
+              title: data[i].Description + data[i].ItemID + data[i].Category,
+              subtitle: data[i].Description,
+              price: data[i].UnitPrice,
+              category: data[i].Category,
+              generic: data[i].GenericName,
+              inventory: data[i].InventoryType,
+              unitstock: data[i].UnitInStock,
+              link: link
+            });
+          }
+          app.preloader.hide();    
+      });
+      
+      return {
+        items: items
+      };
+
+    },
+    on: {
+      pageInit: function() {
+        //app.preloader.show();
+        var link = this.$route.params.link;
+        var self = this;
+
+          self.virtualList = self.$app.virtualList.create({
+          // List Element
+          el: self.$el.find('.virtual-list'),
+          // Pass array with items
+          items: self.items,
+          // Custom search function for searchbar
+          searchAll: function (query, items) {
+            var found = [];
+            for (var i = 0; i < items.length; i++) {
+              if (items[i].title.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
+            }
+            return found; //return array with mathced indexes
+          },
+          // List item Template7 template
+          itemTemplate:
+            '<li>' +
+              '<a class="open-vertical item-content">' +
+                '<div class="item-inner">' +
+                  '<div class="item-title-row" style="background-image:none;">' +
+                    '<div class="item-subtitle item-subtitle-me center">'+
+                        '<div class="row">'+
+                            '<div class="col-40">ID</div>'+
+                            '<div class="col-60">: {{id}}</div>'+
+                            '<div class="col-40">ItemName</div>'+
+                            '<div class="col-60">: {{subtitle}}</div>'+
+                            '<div class="col-40">Unit-Price</div>'+
+                            '<div class="col-60">: {{price}}</div>'+
+                            '<div class="col-40">Category</div>'+
+                            '<div class="col-60">: {{category}}</div>'+
+                            '<div class="col-40">Generic-Name</div>'+
+                            '<div class="col-60">: {{generic}}</div>'+
+                            '<div class="col-40">Inventery</div>'+
+                            '<div class="col-60">: {{inventory}}</div>'+
+                            '<div class="col-40">Unit-Stock</div>'+
+                            '<div class="col-60">: {{unitstock}}</div>'+
+                        '</div>'+
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+              '</a>' +
+            '</li>',
+          // Item height
+          height: self.$theme.ios ? 63 : 180,
+        });
+
+        //================================== load category =============================//
+      var html = '';
+      app.request.json('http://'+link+'/Hospital/dynamicController/loadcategory', 
+      function (data) {
+        for (var i = 0; i < data.length; i++) {
+          html +="<option value='"+data[i].CategoryID+"'>"+data[i].CategoryName+"</option>";
+        }
+        $('.category').append(html);
+      });
+
+      //============================= search by category ===============================//
+
+      $('.category').on('change', function(e){
+          var cate = $(this).val();
+          app.request.post('http://'+link+'/Hospital/dynamicController/loadItembyCategoryID', 
+          { category: cate }, 
+          function (data) {
+            //console.log(data);
+            $('.category-list').addClass('hide');
+            $('.myls').removeClass('hide');
+            var html = "";
+            app.preloader.show();
+            if(data == "")
+            {
+               $('.myls').find('ul').html('');
+               html +='<li>'+
+                            '<a class="open-vertical item-content">'+
+                              '<div class="item-inner">'+
+                                '<div class="item-title-row" style="background-image:none;">' +
+                                    '<div class="item-subtitle item-subtitle-me center">'+
+                                        '<div class="row">'+
+                                            '<div class="col-100">'+
+                                              'The data not found.'+
+                                            '</div>'+
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'+
+                              '</div>'+
+                            '</a>'+
+                      '</li>';
+            }else{
+                data = JSON.parse(data);
+                $('.myls').find('ul').html('');
+                for (var i = 0; i < data.length; i++) {
+                    html += '<li>' +
+                              '<a class="open-vertical item-content">' +
+                                '<div class="item-inner">' +
+                                  '<div class="item-title-row" style="background-image:none;">' +
+                                    '<div class="item-subtitle item-subtitle-me center">'+
+                                        '<div class="row">'+
+                                            '<div class="col-40">ID</div>'+
+                                            '<div class="col-60">: '+data[i].ItemID+'</div>'+
+                                            '<div class="col-40">ItemName</div>'+
+                                            '<div class="col-60">: '+data[i].Description+'</div>'+
+                                            '<div class="col-40">Unit-Price</div>'+
+                                            '<div class="col-60">: '+data[i].UnitPrice+'</div>'+
+                                            '<div class="col-40">Category</div>'+
+                                            '<div class="col-60">: '+data[i].Category+'</div>'+
+                                            '<div class="col-40">Generic-Name</div>'+
+                                            '<div class="col-60">: '+data[i].GenericName+'</div>'+
+                                            '<div class="col-40">Inventery</div>'+
+                                            '<div class="col-60">: '+data[i].InventoryType+'</div>'+
+                                            '<div class="col-40">Unit-Stock</div>'+
+                                            '<div class="col-60">: '+data[i].UnitInStock+'</div>'+
+                                        '</div>'+
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>' +
+                              '</a>' +
+                            '</li>'
+                }
+            }
+            $('.myls').find('ul').append(html);
+            app.preloader.hide();
+          });
+      });
+
+      },
+      pageBeforeRemove: function () {
+        var self = this;
+        self.virtualList.destroy();
+      }
+    }
+  }
+
+</script>

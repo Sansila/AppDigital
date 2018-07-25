@@ -1,0 +1,384 @@
+<template>
+  <div class="page" style="padding-top: 20px;">
+
+    <div class="navbar">
+      <form>
+	      <div class="navbar-inner">
+				<div class="left">
+			  		<a class=" back">
+	            		<i class="far fa-arrow-alt-circle-left"></i>
+	            		<span class="ios-only">Back</span>
+	          		</a>
+				</div>
+					<!-- We have home navbar without left link-->
+				<div class="title sliding" style="width: 100%;">
+					<input type="text" class="my-date" name="" readonly="readonly" id="demo-calendar-default" />
+				</div>
+				<div class="right" style="margin-right: 2px;">
+			 		<a class="select-op smart-select smart-select-init my-search" data-open-in="popup"  data-searchbar="false" data-searchbar-placeholder="Search Partient">
+					    <select name="optionvitual-sign" class="optionvitual-sign" multiple>
+					        <option value="Height">Height</option>
+					        <option value="Weight">Weight</option>
+					        <option value="SBP">SBP</option>
+					        <option value="DBP">DBP</option>
+					        <option value="HeartRate">HeartRate</option>
+					        <option value="Temporature">Temporature</option>
+					        <option value="RespiratoryRate">Respiratory</option>
+					        <option value="Date" selected disabled>Date</option>
+					        <option value="Description" selected disabled>Description</option>
+					    </select>
+					    <div class="item-content my-content">
+					      <div class="item-inner" style="padding: 0px 15px;">
+					        <div class="item-title"><i class="fas fa-sliders-h" style="color: white; font-size: 24px;"></i></div>
+					      </div>
+					    </div>
+					</a>
+					<!-- <div class="my-option">
+						<img src="img/icon/settings.png">
+					</div> -->
+				</div>
+				
+			</div>
+		</form>
+
+    </div>
+
+    <!-- <div class="toolbar tabbar-labels toolbar-bottom-md">
+      <div class="toolbar-inner">
+        <a href="/" class="my-btoom-tab tab-link-active">
+          <i class="icon material-icons md-only my-icon">
+          	<i class="fas fa-home"></i>
+          </i>
+          <span class="tabbar-label">Home</span>
+        </a>
+        <a href="/" class="my-btoom-tab">
+          <i class="icon material-icons md-only my-icon">
+          	<i class="fas fa-th"></i>
+          </i>
+          <span class="tabbar-label">Menu</span>
+        </a>
+        <a href="#view-settings" class="my-btoom-tab">
+          <i class="icon material-icons md-only my-icon">
+          	<i class="fas fa-cog"></i>
+          </i>
+          <span class="tabbar-label">Settings</span>
+        </a>
+      </div>
+    </div> -->
+
+    <div class="page-content">
+    	<div class="block block-strong my-block" style="margin-top: 0px !important;">
+    		<img class="my-profile" src="img/icon/man-big.png">
+    	</div>
+
+        <div class="timeline">
+		  <!-- Timeline item with inner -->
+		  	<div class="timeline-item">
+			    <div class="timeline-item-divider"></div>
+			    <div class="timeline-item-content">Name: <span>{{js 'return JSON.stringify(this.$route.params.pname)'}}</span></div>
+			</div>
+			<div class="timeline-mylist"></div>
+		</div>
+
+    </div>
+    <div class="my-id"></div>
+    <div class="my-link"></div>
+
+  </div>
+  
+</template>
+
+<script>	
+
+  return {
+  	on: {
+      pageInit: function (e, page) {
+      	this.loadDefault();
+      	var link = this.$route.params.link;
+  		  var myid = this.$route.params.id;
+        var self = this;
+        var today = new Date();
+        var app = self.$app;
+        var $ = self.$;
+
+        $('.my-id').append(myid);
+  		$('.my-link').append(link);
+
+
+
+
+  		$('.optionvitual-sign').change(function(){
+            var link = $('.my-link').text();
+            var myid = $('.my-id').text();
+            optionName=$(this).val();
+            $('.timeline-mylist').html('');
+            var OHeight = "hide",
+                OWeight = "hide",
+                OSBP = "hide",
+                ODBP = "hide",
+                OTemporature = "hide",
+                OHeartRate = "hide",
+                ORespiratory = "hide";
+              for (var e = 0; e < optionName.length; e++) {
+                  var showall = optionName.length; //console.log(showall);
+                  if(showall == 2)
+                  {
+                      OHeight = "";
+                      OWeight = "";
+                      OSBP = "";
+                      ODBP = "";
+                      OTemporature = "";
+                      OHeartRate = "";
+                      ORespiratory = "";
+                  }else{
+                      if(optionName[e] == "Height")
+                      {
+                        OHeight = "";
+                      }
+                      if(optionName[e] == "Weight")
+                      {
+                        OWeight = "";
+                      }
+                      if(optionName[e] == "SBP")
+                      {
+                        OSBP = "";
+                      }
+                      if(optionName[e] == "DBP")
+                      {
+                        ODBP = "";
+                      }
+                      if(optionName[e] == "Temporature")
+                      {
+                        OTemporature = "";
+                      }
+                      if(optionName[e] == "HeartRate")
+                      {
+                        OHeartRate = "";
+                      }
+                      if(optionName[e] == "RespiratoryRate")
+                      {
+                        ORespiratory = "";
+                      }
+                  }
+              }
+              
+              self.filterOption(optionName,myid,link,OHeight,OWeight,OSBP,ODBP,OTemporature,OHeartRate,ORespiratory);
+
+        });
+
+
+
+
+        // Default
+        var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'];
+        self.calendarDefault = app.calendar.create({
+          	inputEl: '#demo-calendar-default',
+          	on: {
+			  	init: function(calendar) {
+			    	$('.calendar-month-name').text(monthNames[calendar.currentMonth] +' ' + calendar.currentYear);
+			  	},
+			  	monthYearChangeStart: function (calendar) {
+			    	$('.calendar-month-name').text(monthNames[calendar.currentMonth] +' ' + calendar.currentYear);
+			  	},
+			  	dayClick: function(calendar, dayEl, year, month, day) {
+			  		var months = parseInt(month) + 1;
+			    	var selectedDay = year+'/'+(months)+'/'+day; // selected day
+			    	var currentDay = $('.calendar-day-today span').text(); //current day
+			    	//console.log(selectedDay);
+			    	$('.timeline-mylist').html("");
+			    	app.preloader.show();
+			    	self.searchBymonth(selectedDay);
+			    	app.calendar.close();
+			  	}
+			},
+
+        });
+        
+      },
+      pageBeforeRemove() {
+        var self = this;
+        self.calendarDefault.destroy();
+        app.smartSelect.close('.smart-select',true);
+      },
+
+    },
+    methods: {
+    	searchBymonth: function(selectedDay)
+    	{
+    		var link = this.$route.params.link;
+    		app.request.post('http://'+link+'/Hospital/dynamicController/loadhistorys', 
+	  		{ date: selectedDay,  id: this.$route.params.id }, 
+	  		function (datadate) {
+	  				var historydate = JSON.parse(datadate);
+	  				app.preloader.hide();
+	  				//console.log(historydate);
+	  				if(historydate == "")
+	  				{
+	  					$('.timeline-mylist').append('<div class="timeline-item">'+
+	    										'<div class="timeline-item-divider"></div>'+
+	    										'<div class="timeline-item-content">The data can not found.</div>'+
+	  									 '</div>');
+	  				}else{
+	  					for (var i = 0; i < historydate.length; i++) {
+		  					$('.timeline-mylist').append('<div class="timeline-item">'+
+			  										'<div class="timeline-item-divider"></div>'+
+				    								'<div class="timeline-item-content full-my">'+
+				      									'<div class="timeline-item-time">'+historydate[i].Date+'</div>'+
+				      									'<div class="timeline-item-inner">'+
+				      										'<div class="timeline-item-text">'+
+				      											'<div class="row">'+
+				      												'<div class="col">-Height: '+historydate[i].Height+'</div>'+
+				      												'| <div class="col">-Weight: '+ historydate[i].Weight+'</div>'+
+				      											'</div>'+
+				      										'</div>'+
+				      										'<div class="timeline-item-text">'+
+				      											'<div class="row">'+
+				      												'<div class="col">-SBP: '+historydate[i].SBP+'</div>'+
+				      												'| <div class="col">-DBP: '+historydate[i].DBP+'</div>'+
+				      											'</div>'+
+				      										'</div>'+
+				      										'<div class="timeline-item-text">'+
+				      											'<div class="row">'+
+				      												'<div class="col">-Temporature: '+historydate[i].Temporature+'</div>'+
+				      												' | <div class="col">-Respiratory: '+historydate[i].RespiratoryRate+'</div>'+
+				      											'</div>'+
+				      										'</div>'+
+				      										'<div class="timeline-item-text">'+
+				      											'<div class="row">'+
+				      												'<div class="col">-Heart Rate: '+historydate[i].HeartRate+'</div>'+
+				      											'</div>'+
+				      										'</div>'+
+				      										'<div class="timeline-item-text">'+
+				      											'<div class="row">'+
+				      												'<div class="col">-VisitNo: '+historydate[i].VisitNo+'</div>'+
+				      												' | <div class="col">-V-Person: '+historydate[i].VisitingPersonID+'</div>'+
+				      											'</div>'+
+				      										'</div>'+
+				      										'<div class="timeline-item-text">-Description: '+historydate[i].Description+'</div>'+
+				      									'</div>'+
+				    							  	'</div>'+
+			    								  	'</div>');
+		  				}
+	  				}
+		  			
+	  			
+	  			
+			});
+    	},
+    	loadDefault: function()
+    	{
+    		var link = this.$route.params.link;
+    		app.preloader.show();
+    		app.request.post('http://'+link+'/Hospital/dynamicController/loadhistorys', 
+  			{ id: this.$route.params.id, date: '' }, 
+  			function (data) {
+  				//console.log(data);
+  				app.preloader.hide();
+  				var history = JSON.parse(data);
+  				if(history == "")
+  				{
+  					$('.timeline-mylist').append('<div class="timeline-item">'+
+    										'<div class="timeline-item-divider"></div>'+
+    										'<div class="timeline-item-content">The data can not found.</div>'+
+  									 '</div>');
+  				}else{
+  					for (var i = 0; i < history.length; i++) {
+		  				$('.timeline-mylist').append('<div class="timeline-item">'+
+			  										'<div class="timeline-item-divider"></div>'+
+				    								'<div class="timeline-item-content full-my">'+
+				      									'<div class="timeline-item-time">'+history[i].Date+'</div>'+
+				      									'<div class="timeline-item-inner">'+
+
+				      										'<div class="timeline-item-text">'+
+				      											'<div class="row">'+
+				      												'<div class="col">-Height: '+history[i].Height+'</div>'+
+				      												'| <div class="col">-Weight: '+ history[i].Weight+'</div>'+
+				      											'</div>'+
+				      										'</div>'+
+
+				      										'<div class="timeline-item-text">'+
+				      											'<div class="row">'+
+				      												'<div class="col">-SBP: '+history[i].SBP+'</div>'+
+				      												'| <div class="col">-DBP: '+history[i].DBP+'</div>'+
+				      											'</div>'+
+				      										'</div>'+
+				      										'<div class="timeline-item-text">'+
+				      											'<div class="row">'+
+				      												'<div class="col">-Temporature: '+history[i].Temporature+'</div>'+
+				      												' | <div class="col">-Respiratory: '+history[i].RespiratoryRate+'</div>'+
+				      											'</div>'+
+				      										'</div>'+
+				      										'<div class="timeline-item-text">'+
+				      											'<div class="row">'+
+				      												'<div class="col">-Heart Rate: '+history[i].HeartRate+'</div>'+
+				      											'</div>'+
+				      										'</div>'+
+				      										'<div class="timeline-item-text">'+
+				      											'<div class="row">'+
+				      												'<div class="col">-VisitNo: '+history[i].VisitNo+'</div>'+
+				      												' | <div class="col">-V-Person: '+history[i].VisitingPersonID+'</div>'+
+				      											'</div>'+
+				      										'</div>'+
+				      										'<div class="timeline-item-text">-Description: '+history[i].Description+'</div>'+
+				      									'</div>'+
+				    							  	'</div>'+
+			    								  	'</div>');
+		  			}
+  				}
+	  				
+			});
+    	},
+    	filterOption: function(optionName,myid,link,OHeight,OWeight,OSBP,ODBP,OTemporature,OHeartRate,ORespiratory)
+    	{
+    		app.request.post('http://'+link+'/Hospital/dynamicController/loadhistoryoption', 
+              { optionName: optionName, id: myid}, 
+              function (dataopt) {
+                option = JSON.parse(dataopt);
+                app.preloader.show();
+                //console.log(option);
+                var storeHTML = ''; 
+                for (var i = 0; i < option.length; i++){
+                  storeHTML += '<div class="timeline-item">'+
+                                  '<div class="timeline-item-divider"></div>'+
+                                  '<div class="timeline-item-content full-my">'+
+                                      '<div class="timeline-item-time">'+option[i].Date+'</div>'+
+                                      '<div class="timeline-item-inner">'+
+                                        '<div class="timeline-item-text">'+
+                                          '<div class="row">'+'<div class="col '+OHeight+'">-Height: '+option[i].Height+'</div>'+
+                                             
+                                            '<div class="col '+OWeight+'">| -Weight: '+ option[i].Weight+'</div>'+
+                                          '</div>'+
+                                        '</div>'+
+                                        '<div class="timeline-item-text">'+
+                                          '<div class="row">'+
+                                            '<div class="col '+OSBP+'">-SBP: '+option[i].SBP+'</div>'+
+                                            '<div class="col '+ODBP+'">| -DBP: '+option[i].DBP+'</div>'+
+                                          '</div>'+
+                                        '</div>'+
+                                        '<div class="timeline-item-text">'+
+                                          '<div class="row">'+
+                                            '<div class="col '+OTemporature+'">-Temporature: '+option[i].Temporature+'</div>'+
+                                            '<div class="col '+ORespiratory+'">| -Respiratory: '+option[i].RespiratoryRate+'</div>'+
+                                          '</div>'+
+                                        '</div>'+
+                                        '<div class="timeline-item-text">'+
+                                          '<div class="row">'+
+                                            '<div class="col '+OHeartRate+'">-Heart Rate: '+option[i].HeartRate+'</div>'+
+                                          '</div>'+
+                                        '</div>'+
+                                        '<div class="timeline-item-text">-Description: '+option[i].Description+'</div>'+
+                                      '</div>'+
+                                    '</div>'+
+                                    '</div>';
+              }
+              $('.timeline-mylist').html('');
+              $('.timeline-mylist').append(storeHTML);
+              app.preloader.hide();
+
+              });
+    	}
+    }
+  }
+
+</script>
+

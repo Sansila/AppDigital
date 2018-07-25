@@ -1,0 +1,74 @@
+<template>
+  <div class="page">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a class="link back">
+            <i class="far fa-arrow-alt-circle-left"></i>
+            <span class="ios-only">Back</span>
+          </a>
+        </div>
+        <div class="title" style="left: 0px; width: 100%; text-align: center !important;">
+        	<img src="img/jointable.png">
+        </div>
+        <div class="right" style="cursor: pointer;">
+	        <a class="link item-link smart-select smart-select-init" data-open-in="popup">
+			    <select name="optionFood" class="optionFood">
+			        <option value="honda">Honda</option>
+			        <option value="lexus">Lexus</option>
+			        <option value="mazda">Mazda</option>
+			        <option value="nissan">Nissan</option>
+			        <option value="toyota">Toyota</option>
+			    </select>
+			    <div class="item-content">
+			      <div class="item-inner">
+			        <div class="item-title"><i class="fas fa-ellipsis-v"></i></div>
+			      </div>
+			    </div>
+			</a>
+        </div>
+      </div>
+    </div>
+    <div class="toolbar">
+	    <div class="toolbar-inner">
+	      <a class="link">TableNo</a>
+	      <a class="link" href="/currentOrder/">Current Order</a>
+	      <a class="link">Order Summary</a>
+	      <a class="link">OrderNo</a>
+	    </div>
+	</div>
+
+    <div class="page-content">
+		<div class="block" style="margin: 15px 0px;">
+		  	<div class="row">
+			    <div class="col">
+			    	<div class="blocks" style="margin: 0px !important; background: none;">
+                        <div class="detailImage">
+                            <img src="img/Noodles.jpg">
+                        </div>
+                        <p class="foodName">Name Food</p>
+                        <p class="foodDetail">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec,</p>
+                        
+					</div>
+			    </div>
+			</div>
+    	</div>
+    	<div class="block">
+    		<div class="row">
+            	<button class="col button button-outline button-round">Order</button>
+            	<a class="back col button button-outline button-round">Cancel</a>
+            </div>
+    	</div>
+  </div>
+</template>
+
+<script>
+	return{
+		on:{
+			pageInit: function(){
+				$('.item-after').hide();
+			},
+		}
+	}
+</script>
+

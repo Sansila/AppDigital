@@ -1,0 +1,182 @@
+<template>
+  <div class="page" style="padding-top: 20px;">
+    <div class="navbar">
+      <div class="navbar-inner sliding">
+        <div class="left">
+          <a class=" back">
+            <i class="far fa-arrow-alt-circle-left"></i>
+            <span class="ios-only">Back</span>
+          </a>
+        </div>
+        <div class="title" style="left: 0px; width: 100%; text-align: center !important;">
+          <img src="img/inventory.png">
+        </div>
+        <div class="right hide">
+          <a class="smart-select smart-select-init" data-open-in="popup"  data-searchbar="true" data-searchbar-placeholder="Search Location">
+            <select name="location" class="location" multiple></select>
+            <div class="item-content my-content">
+              <div class="item-inner" style="padding: 0px 8px;">
+                <div class="item-title"><i class="fas fa-sliders-h"></i></div>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="subnavbar" style="margin-top: 10px; height: 40px !important;">
+      <form data-search-container=".virtual-list" data-search-item="li" data-search-in=".item-title" class="searchbar searchbar-init">
+        <div class="searchbar-inner">
+          <div class="searchbar-input-wrap">
+            <input class="option-hide-bar" type="search" placeholder="Search"/>
+            <i class="searchbar-icon"></i>
+            <span class="input-clear-button"></span>
+          </div>
+          <span class="searchbar-disable-button">Cancel</span>
+        </div>
+      </form>
+    </div>
+    <div class="searchbar-backdrop"></div>
+    <div class="page-content">
+      <div class="list simple-list searchbar-not-found">
+        <ul>
+          <li>Nothing found</li>
+        </ul>
+      </div>
+      <!-- <div class="myls list media-list hide"><ul style="height: auto;"></ul></div> -->
+      <div class="list virtual-list media-list searchbar-found inventory-list" style="margin: 0px;"></div>
+    </div>
+  </div>
+</template>
+
+<script>
+	return {
+		data: function() {
+			var link = this.$route.params.link;
+			var $ = this.$;
+	        var app = this.$app;
+	        var items = [];
+		
+			app.request.json('http://'+link+'/Hospital/dynamicController/getInventory', 
+		    function (data) {
+		        app.preloader.show();
+		        for (var i = 0; i < data.length; i++) {
+		            items.push({
+		              title: data[i].CategoryName + data[i].Qty + data[i].ItemDescription + data[i].LocationName,
+		              subtitle: data[i].ItemDescription,
+		              generic: data[i].GenericName,
+		              category: data[i].CategoryName,
+		              location: data[i].LocationName,
+		              expire: data[i].ExpiringDate,
+		              qty: data[i].UnitInStock,
+		              qtylevel: data[i].UnitInStock_Level2,
+		            });
+		        }
+		        app.preloader.hide();    
+		    });
+
+			return {
+				items: items
+			};
+		},
+		on: {
+			pageInit: function(e, page) {
+		      	var link = this.$route.params.link;
+		        var self = this;
+		        var app = self.$app;
+		        var $ = self.$;
+
+		        self.getLocation(link);
+
+		        self.virtualList = self.$app.virtualList.create({
+          
+				  // List Element
+		          el: self.$el.find('.virtual-list'),
+				  // Pass array with items
+		          items: self.items,
+		          // Custom search function for searchbar
+		          searchAll: function (query, items) {
+		            var found = [];
+		            for (var i = 0; i < items.length; i++) {
+		              if (items[i].title.toLowerCase().indexOf(query.toLowerCase()) >= 0 || query.trim() === '') found.push(i);
+		            }
+		            return found; //return array with mathced indexes
+		          },
+		          
+				  // List item Template7 template
+		          itemTemplate:
+		            '<li>' +
+		              	  '<div class="open-vertical item-content" style="padding-left: 5px;">' +
+                                '<div class="item-inner" style="padding-right: 5px; background-image: none;">' +
+                                    '<div class="item-subtitle item-subtitle-me center" style="width:100%;">'+
+                                        '<div class="timeline-mylist">'+
+                                          '<div class="timeline-item">'+
+                                              '<div class="timeline-item-content full-my">'+
+                                                  '<div class="timeline-item-inner">'+
+                                                      '<div class="timeline-item-text">'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">ItemName: </div>'+
+                                                              '<div class="col-70 item-title">| {{subtitle}}</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">GenericName: </div>'+
+                                                              '<div class="col-70 item-title">| {{generic}}</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">UnitInStock: </div>'+
+                                                              '<div class="col-70 item-title">| {{qty}}</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">UnitInStockLevel2: </div>'+
+                                                              '<div class="col-70 item-title">| {{qtylevel}}</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">ExpiringDate: </div>'+
+                                                              '<div class="col-70 item-title">| {{expire}}</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">LocationName: </div>'+
+                                                              '<div class="col-70">| {{location}}</div>'+
+                                                          '</div>'+
+                                                          '<div class="row">'+
+                                                              '<div class="col-30">CategoryName: </div>'+
+                                                              '<div class="col-70">| {{category}}</div>'+
+                                                          '</div>'+
+                                                      '</div>'+
+                                                  '</div>'+
+                                              '</div>'+
+                                      '</div>'+
+                                    '</div>' +
+                                  '</div>' +
+                                '</div>' +
+                              '</div>' +
+		            '</li>',
+		          // Item height
+		          height: self.$theme.ios ? 63 : 73,
+		        });
+
+			},
+			pageBeforeRemove: function () {
+		        var self = this;
+		        self.virtualList.destroy();
+		    }
+		},
+		methods: {
+			getLocation: function(link)
+			{
+				var html = ''; app.preloader.show();
+				app.request.json('http://'+link+'/Hospital/dynamicController/getLocation', 
+				function (data) {
+					console.log(data);
+				  	for (var i = 0; i < data.length; i++) {
+				  		html +='<option value="'+data[i].LocationID+'">'+data[i].LocationName+'</option>';
+				  	}
+				  	$('.location').append(html);
+				  	app.preloader.hide();
+				});
+				
+			}
+		}
+	}
+</script>
+
